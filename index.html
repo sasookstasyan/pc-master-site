@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="theme-color" content="#0d1216">
+	<meta name="description" content="Сборка и настройка компьютеров, установка Windows, чистка, замена термопасты, диагностика и ремонт ПК.">
+	<title>PC Мастер — сборка и настройка ПК</title>
+	<style>
+		:root {
+			color-scheme: dark;
+			--bg: #0d1216;
+			--surface: #151d22;
+			--surface-light: #1d272d;
+			--text: #edf3f4;
+			--muted: #9daeb2;
+			--accent: #67ddeb;
+			--accent-dark: #10272b;
+			--warm: #ff9b67;
+			--line: rgba(242, 243, 237, .12);
+			--max-width: 1180px;
+		}
+
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body {
+			margin: 0;
+			background:
+					radial-gradient(ellipse at 76% 12%, rgba(43, 130, 146, .16), transparent 34rem),
+				var(--bg);
+			color: var(--text);
+			font-family: "Bahnschrift", "Segoe UI", sans-serif;
+			font-size: 16px;
+			line-height: 1.55;
+		}
+		a { color: inherit; text-decoration: none; }
+		a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+		.container { width: min(var(--max-width), calc(100% - 48px)); margin-inline: auto; }
+		.eyebrow {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			color: var(--accent);
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: .08em;
+			text-transform: uppercase;
+		}
+		.eyebrow::before { width: 22px; height: 1px; background: currentColor; content: ""; }
+
+		.site-header { position: relative; z-index: 2; border-bottom: 1px solid var(--line); }
+		.header-inner { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+		.brand { display: inline-flex; align-items: center; gap: 11px; font-size: 19px; font-weight: 800; letter-spacing: 0; }
+		.brand-mark {
+			display: grid;
+			width: 34px;
+			aspect-ratio: 1;
+			place-items: center;
+			border: 1px solid rgba(103, 221, 235, .4);
+			border-radius: 9px;
+			color: var(--accent);
+			font-size: 14px;
+		}
+		.nav { display: flex; align-items: center; gap: 30px; color: #c0c5bb; font-size: 13px; }
+		.nav a:hover, .header-phone:hover { color: var(--accent); }
+		.header-right { display: flex; align-items: center; gap: 22px; }
+		.header-phone { font-size: 14px; font-weight: 700; }
+
+		.button {
+			display: inline-flex;
+			min-height: 48px;
+			align-items: center;
+			justify-content: center;
+			gap: 12px;
+			padding: 0 20px;
+			border: 1px solid var(--accent);
+			border-radius: 5px;
+			background: var(--accent);
+			color: #15190f;
+			font-size: 14px;
+			font-weight: 800;
+			transition: background .2s ease, transform .2s ease;
+		}
+		.button:hover { transform: translateY(-2px); background: #a0f0f5; }
+		.button::after { content: "↗"; font-size: 17px; line-height: 1; }
+
+		.hero { position: relative; overflow: hidden; padding: 80px 0 88px; }
+		.hero::before {
+			position: absolute;
+			inset: 0;
+			background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+			background-size: 56px 56px;
+			mask-image: linear-gradient(to right, transparent, black 75%);
+			content: "";
+			pointer-events: none;
+		}
+		.hero-grid { position: relative; display: grid; grid-template-columns: 1fr .94fr; align-items: center; gap: 46px; }
+		.hero-copy { padding: 16px 0; animation: content-in .7s both; }
+		.availability { display: inline-flex; align-items: center; gap: 9px; margin-bottom: 23px; color: #c4c9bf; font-size: 12px; }
+		.availability::before { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px rgba(103,221,235,.55); content: ""; }
+		h1 { max-width: 640px; margin: 0; font-size: clamp(46px, 6vw, 76px); line-height: .99; letter-spacing: -.035em; }
+		h1 span { color: var(--accent); }
+		.hero-copy > p { max-width: 480px; margin: 24px 0 31px; color: #afb4aa; font-size: 17px; }
+		.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; }
+		.hero-note { color: var(--muted); font-size: 12px; }
+		.hero-visual { position: relative; min-height: 410px; animation: visual-in .85s .12s both; }
+		.hero-photo {
+			position: absolute;
+			inset: 0 0 0 22px;
+			border: 1px solid rgba(255,255,255,.14);
+			border-radius: 7px;
+			background: #202a30 url("https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1500&q=85") center / cover;
+		}
+		.hero-photo::after { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, rgba(16,18,16,.14), transparent 45%), linear-gradient(0deg, rgba(16,18,16,.56), transparent 40%); content: ""; }
+		.visual-tag { position: absolute; z-index: 1; right: -14px; bottom: 28px; display: flex; align-items: center; gap: 12px; padding: 14px 17px; border: 1px solid var(--line); border-radius: 5px; background: #191d19; box-shadow: 0 16px 38px rgba(0,0,0,.3); }
+		.visual-tag-mark { color: var(--accent); font-size: 22px; }
+		.visual-tag strong, .visual-tag small { display: block; }
+		.visual-tag strong { font-size: 13px; }
+		.visual-tag small { margin-top: 2px; color: var(--muted); font-size: 11px; }
+		.hero-index { position: absolute; top: 14px; left: 0; color: #7c8278; font-size: 11px; writing-mode: vertical-rl; }
+
+		section { scroll-margin-top: 28px; }
+		.section { padding: 92px 0; }
+		.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 36px; }
+		h2 { margin: 11px 0 0; font-size: clamp(32px, 4vw, 46px); line-height: 1.08; letter-spacing: -.025em; }
+		.section-heading > p { max-width: 350px; margin: 0; color: var(--muted); font-size: 14px; }
+		.services { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(255,255,255,.012); }
+		.service-tabs { display: flex; gap: 8px; margin-bottom: 22px; overflow-x: auto; scrollbar-width: none; }
+		.service-tabs::-webkit-scrollbar { display: none; }
+		.service-tab {
+			flex: 0 0 auto;
+			min-height: 40px;
+			padding: 0 15px;
+			border: 1px solid var(--line);
+			border-radius: 4px;
+			background: transparent;
+			color: #b4c0c2;
+			font: inherit;
+			font-size: 12px;
+			cursor: pointer;
+			transition: color .2s ease, background .2s ease, border-color .2s ease;
+		}
+		.service-tab:hover { border-color: rgba(103,221,235,.55); color: var(--text); }
+		.service-tab[aria-selected="true"] { border-color: var(--accent); background: var(--accent-dark); color: var(--accent); }
+		.service-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+		.service-card { min-height: 190px; padding: 25px 26px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); transition: background .2s ease; }
+		.service-card:not([hidden]) { animation: card-in .32s both; }
+		.service-card[hidden] { display: none; }
+		.service-card:hover { background: rgba(103,221,235,.045); }
+		.service-number { color: var(--accent); font-size: 11px; font-weight: 700; }
+		.service-card h3 { margin: 18px 0 7px; font-size: 19px; }
+		.service-card p { max-width: 290px; margin: 0; color: var(--muted); font-size: 13px; }
+
+		.benefits { padding: 86px 0; background: var(--warm); color: #24170f; }
+		.benefits .eyebrow { color: #68432e; }
+		.benefits-grid { display: grid; grid-template-columns: .92fr 1.08fr; align-items: start; gap: 80px; }
+		.benefits h2 { max-width: 450px; }
+		.benefits-intro { max-width: 380px; margin: 19px 0 0; color: #563a2a; font-size: 14px; }
+		.benefit-list { display: grid; grid-template-columns: 1fr 1fr; gap: 25px 30px; padding-top: 4px; }
+		.benefit-item { padding-top: 15px; border-top: 1px solid rgba(36,23,15,.24); }
+		.benefit-item strong { display: block; font-size: 17px; }
+		.benefit-item p { margin: 7px 0 0; color: #563a2a; font-size: 13px; }
+
+		.steps { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
+		.step { position: relative; padding: 23px 22px 0 0; }
+		.step:not(:last-child)::after { position: absolute; top: -4px; right: 0; width: 7px; height: 7px; border: 1px solid var(--accent); border-radius: 50%; background: var(--bg); content: ""; }
+		.step-number { color: var(--accent); font-size: 12px; font-weight: 700; }
+		.step h3 { margin: 15px 0 7px; font-size: 17px; }
+		.step p { max-width: 235px; margin: 0; color: var(--muted); font-size: 13px; }
+
+		.contact-section { padding: 0 0 84px; }
+		.contact-panel { display: grid; grid-template-columns: 1fr .8fr; align-items: center; gap: 50px; padding: 48px; border: 1px solid var(--line); border-radius: 7px; background: linear-gradient(115deg, #19252a, #141b20 67%); }
+		.contact-panel h2 { max-width: 500px; }
+		.contact-panel p { max-width: 430px; margin: 14px 0 0; color: var(--muted); font-size: 14px; }
+		.contact-details { display: grid; gap: 16px; }
+		.contact-link { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-bottom: 13px; border-bottom: 1px solid var(--line); }
+		.contact-link span { color: var(--muted); font-size: 12px; }
+		.contact-link strong { font-size: 15px; }
+		.contact-link:hover strong { color: var(--accent); }
+
+		.site-footer { border-top: 1px solid var(--line); }
+		.footer-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; color: #858b81; font-size: 11px; }
+		.footer-brand { color: var(--text); font-size: 13px; font-weight: 800; }
+		.has-js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+		.has-js .reveal.is-visible { opacity: 1; transform: translateY(0); }
+		@keyframes content-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+		@keyframes visual-in { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
+		@keyframes card-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+		@media (max-width: 850px) {
+			.nav { gap: 18px; }
+			.header-phone { display: none; }
+			.hero { padding: 58px 0 68px; }
+			.hero-grid { grid-template-columns: 1fr .8fr; gap: 24px; }
+			.hero-visual { min-height: 355px; }
+			.benefits-grid { gap: 42px; }
+			.contact-panel { padding: 36px; }
+		}
+		@media (max-width: 640px) {
+			.container { width: min(var(--max-width), calc(100% - 36px)); }
+			.header-inner { min-height: 68px; gap: 12px; }
+			.brand { font-size: 17px; }
+			.brand-mark { width: 31px; }
+			.nav { display: none; }
+			.header-right .button { min-height: 40px; padding: 0 13px; font-size: 12px; }
+			.hero { padding: 47px 0 54px; }
+			.hero-grid { grid-template-columns: 1fr; gap: 34px; }
+			.hero-copy { padding: 0; }
+			.availability { margin-bottom: 18px; }
+			h1 { max-width: 500px; font-size: clamp(43px, 12vw, 64px); }
+			.hero-copy > p { margin: 17px 0 23px; font-size: 15px; }
+			.hero-actions { gap: 15px; }
+			.hero-visual { min-height: 270px; }
+			.hero-photo { inset: 0 8px 0 14px; background-position: center 54%; }
+			.hero-index { top: 7px; }
+			.visual-tag { right: 0; bottom: 14px; padding: 11px 13px; }
+			.section { padding: 64px 0; }
+			.section-heading { display: block; margin-bottom: 26px; }
+			.section-heading > p { margin-top: 13px; }
+			h2 { font-size: 34px; }
+			.service-grid { grid-template-columns: 1fr 1fr; }
+			.service-tabs { margin-right: -18px; padding-right: 18px; }
+			.service-card { min-height: 178px; padding: 19px 16px; }
+			.service-card h3 { margin-top: 15px; font-size: 16px; }
+			.service-card p { font-size: 12px; }
+			.benefits { padding: 64px 0; }
+			.benefits-grid { grid-template-columns: 1fr; gap: 29px; }
+			.benefit-list { gap: 21px 16px; }
+			.benefit-item strong { font-size: 15px; }
+			.steps { grid-template-columns: 1fr 1fr; gap: 27px 20px; border-top: 0; }
+			.step { padding: 17px 0 0; border-top: 1px solid var(--line); }
+			.step:not(:last-child)::after { display: none; }
+			.step h3 { margin-top: 10px; font-size: 15px; }
+			.step p { font-size: 12px; }
+			.contact-section { padding-bottom: 58px; }
+			.contact-panel { grid-template-columns: 1fr; gap: 28px; padding: 27px 21px; }
+			.contact-panel h2 { font-size: 31px; }
+			.footer-inner { min-height: 72px; flex-wrap: wrap; justify-content: space-between; gap: 5px 18px; padding: 15px 0; }
+			.footer-inner > span:last-child { width: 100%; }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+			.hero-copy, .hero-visual, .service-card:not([hidden]) { animation: none !important; }
+			.has-js .reveal { opacity: 1; transform: none; transition: none; }
+		}
+	</style>
+</head>
+<body>
+	<header class="site-header">
+		<div class="container header-inner">
+			<a class="brand" href="#top" aria-label="PC Мастер, на главную">
+				<span class="brand-mark" aria-hidden="true">PC</span>
+				<span>PC Мастер</span>
+			</a>
+			<nav class="nav" aria-label="Основная навигация">
+				<a href="#services">Услуги</a>
+				<a href="#benefits">Преимущества</a>
+				<a href="#process">Этапы работы</a>
+				<a href="#contacts">Контакты</a>
+			</nav>
+			<div class="header-right">
+				<a class="header-phone" href="tel:+79000000000">+7 (900) 000-00-00</a>
+				<a class="button" href="#contacts">Заказать</a>
+			</div>
+		</div>
+	</header>
+
+	<main id="top">
+		<section class="hero" aria-labelledby="hero-title">
+			<div class="container hero-grid">
+				<div class="hero-copy">
+					<div class="availability">Принимаю заказы на этой неделе</div>
+					<div class="eyebrow">Техника должна работать на вас</div>
+					<h1 id="hero-title">Сборка и <span>настройка ПК</span></h1>
+					<p>Подберу комплектующие, соберу компьютер и настрою его под ваши задачи. Аккуратно, прозрачно и с гарантией на работу.</p>
+					<div class="hero-actions">
+						<a class="button" href="#contacts">Заказать</a>
+						<span class="hero-note">Ответьте на пару вопросов —<br>подскажу решение и стоимость</span>
+					</div>
+				</div>
+				<div class="hero-visual" aria-label="Игровой компьютер с подсветкой">
+					<span class="hero-index">01 / PC SERVICE</span>
+					<div class="hero-photo" role="img" aria-label="Собранный игровой компьютер"></div>
+					<div class="visual-tag">
+						<span class="visual-tag-mark" aria-hidden="true">⌁</span>
+						<span><strong>Точная настройка</strong><small>Без лишнего софта и шума</small></span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="section services" id="services" aria-labelledby="services-title">
+			<div class="container">
+				<div class="section-heading reveal">
+					<div><div class="eyebrow">Чем могу помочь</div><h2 id="services-title">Услуги</h2></div>
+					<p>От первого подбора деталей до профилактики и ремонта уже работающего компьютера.</p>
+				</div>
+				<div class="service-tabs" role="tablist" aria-label="Категории услуг">
+					<button class="service-tab" id="tab-all" type="button" role="tab" aria-selected="true" aria-controls="services-panel" tabindex="0" data-filter="all">Все услуги</button>
+					<button class="service-tab" id="tab-build" type="button" role="tab" aria-selected="false" aria-controls="services-panel" tabindex="-1" data-filter="build">Сборка и настройка</button>
+					<button class="service-tab" id="tab-care" type="button" role="tab" aria-selected="false" aria-controls="services-panel" tabindex="-1" data-filter="care">Обслуживание</button>
+					<button class="service-tab" id="tab-repair" type="button" role="tab" aria-selected="false" aria-controls="services-panel" tabindex="-1" data-filter="repair">Диагностика и ремонт</button>
+				</div>
+				<div class="service-grid reveal" id="services-panel" role="tabpanel" aria-labelledby="tab-all" tabindex="0">
+					<article class="service-card" data-category="build"><span class="service-number">01 / BUILD</span><h3>Сборка ПК</h3><p>Подбор комплектующих под бюджет, задачи и будущий апгрейд.</p></article>
+					<article class="service-card" data-category="build"><span class="service-number">02 / SETUP</span><h3>Настройка Windows</h3><p>Установка системы, драйверов и нужных программ без лишнего.</p></article>
+					<article class="service-card" data-category="care"><span class="service-number">03 / CLEAN</span><h3>Чистка компьютера</h3><p>Удаление пыли, обслуживание корпуса и проверка охлаждения.</p></article>
+					<article class="service-card" data-category="care"><span class="service-number">04 / COOLING</span><h3>Замена термопасты</h3><p>Обслуживание процессора и видеокарты для стабильных температур.</p></article>
+					<article class="service-card" data-category="repair"><span class="service-number">05 / CHECK</span><h3>Диагностика</h3><p>Найду причину перегрева, шума, зависаний и проблем с запуском.</p></article>
+					<article class="service-card" data-category="repair"><span class="service-number">06 / REPAIR</span><h3>Ремонт и апгрейд</h3><p>Замена неисправных деталей и обновление конфигурации.</p></article>
+				</div>
+			</div>
+		</section>
+
+		<section class="benefits" id="benefits" aria-labelledby="benefits-title">
+			<div class="container benefits-grid reveal">
+				<div>
+					<div class="eyebrow">Спокойно за результат</div>
+					<h2 id="benefits-title">Техника в порядке. Вы — тоже.</h2>
+					<p class="benefits-intro">Объясняю, что делаю и зачем. Никаких внезапных замен и непонятных строк в чеке.</p>
+				</div>
+				<div class="benefit-list">
+					<div class="benefit-item"><strong>Сначала согласование</strong><p>Обсуждаем задачу и цену до начала работ.</p></div>
+					<div class="benefit-item"><strong>Чистая сборка</strong><p>Аккуратный кабель-менеджмент и проверка охлаждения.</p></div>
+					<div class="benefit-item"><strong>Проверка результата</strong><p>Тестирую систему и показываю, что всё работает.</p></div>
+					<div class="benefit-item"><strong>Понятная гарантия</strong><p>На выполненные работы действует гарантия.</p></div>
+				</div>
+			</div>
+		</section>
+
+		<section class="section" id="process" aria-labelledby="process-title">
+			<div class="container">
+				<div class="section-heading reveal">
+					<div><div class="eyebrow">Без сюрпризов</div><h2 id="process-title">Как проходит работа</h2></div>
+					<p>Вы всегда знаете, на каком этапе компьютер и что будет дальше.</p>
+				</div>
+				<div class="steps reveal">
+					<article class="step"><span class="step-number">ШАГ 01</span><h3>Заявка и задача</h3><p>Расскажите, что нужно сделать и для чего используете ПК.</p></article>
+					<article class="step"><span class="step-number">ШАГ 02</span><h3>Диагностика и смета</h3><p>Согласуем решение, сроки и стоимость до начала работы.</p></article>
+					<article class="step"><span class="step-number">ШАГ 03</span><h3>Работа и проверка</h3><p>Собираю, настраиваю или ремонтирую и тестирую результат.</p></article>
+					<article class="step"><span class="step-number">ШАГ 04</span><h3>Готовый компьютер</h3><p>Передаю ПК и коротко объясняю, что было сделано.</p></article>
+				</div>
+			</div>
+		</section>
+
+		<section class="contact-section" id="contacts" aria-labelledby="contacts-title">
+			<div class="container contact-panel reveal">
+				<div>
+					<div class="eyebrow">На связи</div>
+					<h2 id="contacts-title">Обсудим ваш компьютер?</h2>
+					<p>Опишите задачу в сообщении. Подскажу, с чего начать, и сориентирую по срокам.</p>
+				</div>
+				<div class="contact-details">
+					<!-- Перед публикацией замените номер и ссылку Telegram на свои контакты. -->
+					<a class="contact-link" href="tel:+79000000000"><span>Телефон</span><strong>+7 (900) 000-00-00</strong></a>
+					<a class="contact-link" href="https://t.me/pcmaster"><span>Telegram</span><strong>Написать мастеру ↗</strong></a>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<div class="container footer-inner">
+			<a class="footer-brand" href="#top">PC Мастер</a>
+			<span>Сборка, настройка и обслуживание компьютеров</span>
+			<span>© 2026 PC Мастер</span>
+		</div>
+	</footer>
+	<script>
+		const serviceTabs = Array.from(document.querySelectorAll(".service-tab"));
+		const serviceCards = Array.from(document.querySelectorAll(".service-card"));
+		const servicePanel = document.querySelector("#services-panel");
+
+		function selectServiceTab(selectedTab, moveFocus = false) {
+			const filter = selectedTab.dataset.filter;
+
+			serviceTabs.forEach((tab) => {
+				const isSelected = tab === selectedTab;
+				tab.setAttribute("aria-selected", String(isSelected));
+				tab.tabIndex = isSelected ? 0 : -1;
+			});
+			serviceCards.forEach((card) => {
+				card.hidden = filter !== "all" && card.dataset.category !== filter;
+			});
+			servicePanel.setAttribute("aria-labelledby", selectedTab.id);
+			if (moveFocus) selectedTab.focus();
+		}
+
+		serviceTabs.forEach((tab, index) => {
+			tab.addEventListener("click", () => selectServiceTab(tab));
+			tab.addEventListener("keydown", (event) => {
+				let nextIndex = index;
+				if (event.key === "ArrowRight") nextIndex = (index + 1) % serviceTabs.length;
+				else if (event.key === "ArrowLeft") nextIndex = (index - 1 + serviceTabs.length) % serviceTabs.length;
+				else if (event.key === "Home") nextIndex = 0;
+				else if (event.key === "End") nextIndex = serviceTabs.length - 1;
+				else return;
+				event.preventDefault();
+				selectServiceTab(serviceTabs[nextIndex], true);
+			});
+		});
+
+		if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+			document.documentElement.classList.add("has-js");
+			const revealObserver = new IntersectionObserver((entries, observer) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add("is-visible");
+						observer.unobserve(entry.target);
+					}
+				});
+			}, { threshold: 0.12 });
+			document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+		}
+	</script>
+</body>
+</html>
